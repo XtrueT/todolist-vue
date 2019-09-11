@@ -1,3 +1,7 @@
+# 开始
+2019-09-11 v 1.0.0
+创建项目
+
 # vue-cash
 
 ## Project setup
