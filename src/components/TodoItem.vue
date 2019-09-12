@@ -1,7 +1,7 @@
 <template>
 <ol>
     <li v-for="(item,key) in todoList" :key="key" draggable="true">
-        <input type="checkbox" v-model="item.isDone"/>
+        <input type="checkbox" v-model="item.isDone" @change="saveCheck"/>
         <p> {{item.todo}} </p>   
         <a @click="delTodoItem(key)">-</a> 
     </li>
@@ -14,6 +14,7 @@ export default {
     props:{
         todoList:Array,
         del:Function,
+        save:Function,
     },
     methods:{
         delTodoItem(key){
@@ -21,6 +22,9 @@ export default {
             // 后面跟上参数列表是父组件里需要的子组件传回的数据
             this.$emit('del',key);
         },
+        saveCheck(){
+            this.$emit('save');
+        }
     }
 }
 </script>
