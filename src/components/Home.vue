@@ -31,7 +31,7 @@ export default {
     data(){
         return{
             list: [],
-            direction: 'column',
+            direction: 'row',
             flag: false,
             result:[],
             message:'',
@@ -42,11 +42,11 @@ export default {
     methods:{
         getImage(page=1,count='20'){
             Axios_get(`/getImages?page=${page}&count=${count}`,(rs)=>{
-            const {message,result} = rs;
-            this.message = message;
-            result.length===0?this.message = '没有更多了':result.map(item=> this.list.push(item)
-            )
-        });
+                const {message,result} = rs;
+                this.message = message;
+                result.length===0?this.message = '没有更多了':result.map(item=> this.list.push(item)
+                )
+            });
         }
     },
     mounted(){
@@ -65,7 +65,7 @@ export default {
                 }, 500)
             }
         }
-        },
+    },
 }
 </script>
 

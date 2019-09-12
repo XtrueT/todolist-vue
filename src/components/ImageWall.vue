@@ -16,6 +16,7 @@
 </template>
 <script>
 export default {
+    name :'ImageWall',
     props: {
         list: {
             type: Array,
@@ -33,32 +34,35 @@ export default {
             type: Number,
             default: 225
         }
-        },
-        data () {
+    },
+    data () {
         return {
             itemWidth: 0,
             columnData: []
         }
-        },
-        mounted () {
-            this.renderList()
-        },
-        methods: {
+    },
+    watch(){
+        this.renderList()
+    },
+    mounted () {
+        this.renderList()
+    },
+    methods: {
         renderList() {
             // 横向排列使用css进行排列
             // 纵向排列使用绝对定位排列
             if (!this.row) {
-            // 存储每列已排列的高度
-            this.columnData = []
-            // 计算出每列应该占总宽度的百分比
-            this.itemWidth = `${100 / this.column}% `
-            this.$nextTick(() => {
-                // 对所有盒子进行计算绝对定位的位置
-                const boxes = this.$refs.container.getElementsByClassName('column-item');
-                for (let i = 0; i < boxes.length; i++) {
-                    this.setElementStyle(boxes[i], this.list[i], i);
-                }
-            })
+                // 存储每列已排列的高度
+                this.columnData = []
+                // 计算出每列应该占总宽度的百分比
+                this.itemWidth = `${100 / this.column}% `
+                this.$nextTick(() => {
+                    // 对所有盒子进行计算绝对定位的位置
+                    const boxes = this.$refs.container.getElementsByClassName('column-item');
+                    for (let i = 0; i < boxes.length; i++) {
+                        this.setElementStyle(boxes[i], this.list[i], i);
+                    }
+                })
             }
         },
         setElementStyle (element, img, index) {
@@ -85,9 +89,9 @@ export default {
                 this.columnData[min.index] += h;
             }
             element.style.width = this.itemWidth;
-            }
         }
     }
+}
 </script>
 <style scoped>
     .waterfall-wrap {
