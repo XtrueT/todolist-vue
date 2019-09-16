@@ -9,9 +9,9 @@
         <!-- 动态绑定todoList -->
         <!-- 驼峰式命名的props属性需要改变 -->
         <h2>进行中<span id="notDoneCount">{{notDoneList.length}}</span></h2>
-        <TodoItem :todo-list="notDoneList" @del="delTodoItem" @save="save"/>
+        <TodoItem :todo-list="notDoneList" @del="delTodoItem" @save="save" @update="updateTodoItem"/>
         <h2>已完成<span id="isDoneCount">{{isDoneList.length}}</span></h2>
-        <TodoItem :todo-list="isDoneList" @del="delTodoItem" @save="save" style="opacity: 0.5;"/>
+        <TodoItem :todo-list="isDoneList" @del="delTodoItem" @save="save" @update="updateTodoItem" style="opacity: 0.5;"/>
     </section>
 </section>
 </template>
@@ -50,11 +50,29 @@ export default {
             if(this.todo!==''){
                 this.todoList.push({
                     todo:this.todo,
-                    isDone:false
+                    isDone:false,
+                    isEdit:false
                 });
                 this.todo = '';
             }
             this.save();
+        },
+        updateTodoItem(key,value){
+            // 获取原来的值暂存
+            let list = storageUtil.get('todolist',[]);
+            let _value;
+            if(list){
+                _value = list[key].todo;
+            }
+            // 如果不为空就进行保存
+            if(value!==''){
+                this.todoList[key].todo = value;
+                this.todoList[key].isEdit = false;
+                this.save();
+            }else{
+                this.todoList[key].todo = _value;
+                this.todoList[key].isEdit = false;
+            }
         },
         // 等待子组件触发这个函数，并拿到key
         delTodoItem(key){

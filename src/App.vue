@@ -1,7 +1,11 @@
 <template>
 	<div id="app">
-        <Todo text="TodoList"/>
-		<Home/>
+		<header>
+			<Todo text="TodoList"/>
+		</header>
+		<section>
+			<!-- <Home/>	 -->
+		</section>
 	</div>
 </template>
 
