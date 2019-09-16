@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'waterfall-wrap': true, row: row}" ref="container">
+    <div :class="{'waterfall-wrap': true, row: row}" ref="imgList" >
     <template v-if="row">
         <div v-for="(item, index) of list" :key="index" class="row-item">
             <img :src="item.img" :style="{height: `${height}px`}">
@@ -41,9 +41,6 @@ export default {
             columnData: []
         }
     },
-    watch(){
-        this.renderList()
-    },
     mounted () {
         this.renderList()
     },
@@ -58,7 +55,7 @@ export default {
                 this.itemWidth = `${100 / this.column}% `
                 this.$nextTick(() => {
                     // 对所有盒子进行计算绝对定位的位置
-                    const boxes = this.$refs.container.getElementsByClassName('column-item');
+                    const boxes = this.$refs.imgList.getElementsByClassName('column-item');
                     for (let i = 0; i < boxes.length; i++) {
                         this.setElementStyle(boxes[i], this.list[i], i);
                     }
@@ -67,10 +64,11 @@ export default {
         },
         setElementStyle (element, img, index) {
             // 计算出图片实际在项目中显示的高
-            const w = this.$refs.container.offsetWidth / 4;
+            const w = this.$refs.imgList.offsetWidth / 4;
             const h = ((w - 6) / img.width) * img.height + 6;
             if (index < this.column) {
                 element.style.left = `${index * (100 / this.column)}%`;
+                                // console.log( element.style.left)
                 this.columnData[index] = this.columnData[index] ? this.columnData[index] + h : h;
             } else {
                 // 找出最小高度的列
@@ -85,6 +83,7 @@ export default {
                     }
                 }
                 element.style.left = `${min.index * (100 / this.column)}%`;
+
                 element.style.top = `${min.value}px`;
                 this.columnData[min.index] += h;
             }

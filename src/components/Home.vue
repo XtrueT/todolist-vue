@@ -7,10 +7,10 @@
                 横向瀑布流：
                 <input v-model="direction" type="radio" name="direction" value="row">
             </div>
-            <template v-if="list.length != 0">
+            <div v-if="list.length != 0" >
                 <ImageWall v-show="direction=='row'"  :list="list" :row="true"/>
-                <ImageWall v-show="direction=='column'" :list="list"/>
-            </template>
+                <ImageWall v-show="direction=='column'" :list="list" />
+            </div>
             <p v-if="message==='没有更多了'">
                 {{message}}
             </p>
@@ -44,8 +44,9 @@ export default {
             Axios_get(`/getImages?page=${page}&count=${count}`,(rs)=>{
                 const {message,result} = rs;
                 this.message = message;
-                result.length===0?this.message = '没有更多了':result.map(item=> this.list.push(item)
-                )
+                if(result!==undefined){
+                    result.length===0?this.message = '没有更多了':result.map(item=> this.list.push(item))
+                }
             });
         }
     },
